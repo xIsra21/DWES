@@ -1,4 +1,4 @@
-package goya.daw2.sesionlogin;
+package goya.daw2.sesionLogin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,10 +10,11 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
-	static String usuarioKey = "Israel", passwordKey = "12345";
+	static String usuarioKey = "Israel", 
+	passwordKey = "12345";
 	@GetMapping("/")
 	public String principal() {
-		return "login";
+		return "/login";
 	}
 	@PostMapping("/")
 	public String principal2(@RequestParam(name="usuario", required=false)String usuario,
@@ -23,26 +24,38 @@ public class LoginController {
 			sesion.setAttribute("usuario", usuario);
 			sesion.setAttribute("password", password);
 			if(sesion.getAttribute("usuario") == null) {
-				return "login";
+				return "/login";
 			}
 			if(!sesion.getAttribute("usuario").equals(usuarioKey) ||
 					!sesion.getAttribute("password").equals(passwordKey)) {
-				return "login";
+				return "/login";
 			}
 			return "index";
 		}
 		return "index";
 	}
 	
+	@GetMapping("/login")
+	public String login(HttpSession sesion) {
+		if(sesion.getAttribute("usuario") == null) {
+			return "/login";
+		}
+		if(sesion.getAttribute("usuario").equals(usuarioKey) ||
+				sesion.getAttribute("password").equals(passwordKey)) {
+			return "index";
+		}
+		return "login";
+	}
+	
 	@GetMapping("/pag1")
 	public String pag1(HttpSession sesion) {
 		if(sesion.getAttribute("usuario") == null) {
-			return "login";
+			return "/login";
 		}
 		if(!sesion.getAttribute("usuario").equals(usuarioKey) ||
 				!sesion.getAttribute("password").equals(passwordKey)|| 
 				sesion.getAttribute("usuario") == null) {
-			return "login";
+			return "/login";
 		}
 		return "pag1";
 	}
@@ -50,13 +63,19 @@ public class LoginController {
 	@GetMapping("/pag2")
 	public String pag2(HttpSession sesion) {
 		if(sesion.getAttribute("usuario") == null) {
-			return "login";
+			return "/login";
 		}
 		if(!sesion.getAttribute("usuario").equals(usuarioKey) ||
 				!sesion.getAttribute("password").equals(passwordKey)|| 
 				sesion.getAttribute("usuario") == null) {
-			return "login";
+			return "/login";
 		}
 		return "pag2";
+	}
+	
+	@PostMapping("/logout")
+	public String logout(HttpSession sesion) {
+		sesion.invalidate();
+		return "/login";
 	}
 }

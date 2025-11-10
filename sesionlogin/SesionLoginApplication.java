@@ -1,4 +1,4 @@
-package goya.daw2.sesionlogin;
+package goya.daw2.sesionLogin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
