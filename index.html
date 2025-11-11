@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <h1>Página principal</h1>
+    <p>Selecciona una página para visitar:</p>
+
+    <ul>
+        <li><a th:href="@{/pag1}">Ir a la Página 1</a></li>
+        <li><a th:href="@{/pag2}">Ir a la Página 2</a></li>
+		<form th:action="@{/logout}" method="post">
+		     <button type="submit">Cerrar Sesión</button>
+		</form>
+    </ul>
+</body>
+</html>

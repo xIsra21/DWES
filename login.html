@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<label th:text="|${error}|"></label><br>
+    <form th:action="@{/}" method="post">
+        <label for="usuario">Usuario:</label><br>
+        <input type="text" name="usuario"><br><br>
+
+        <label for="contrasena">Contraseña:</label><br>
+        <input type="password" name="password"><br><br>
+
+        <input type="submit" value="Entrar">
+    </form>
+</body>
+</html>

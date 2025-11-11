@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <h1>Esta es la página 1</h1>
+    <p>Texto de prueba en la primera página.</p>
+
+    <form th:action="@{/}" method="post">
+        <button type="submit">Volver al inicio</button>
+    </form>
+	<form th:action="@{/logout}" method="post">
+		<button type="submit">Cerrar Sesión</button>
+	</form>
+</body>
+</html>
