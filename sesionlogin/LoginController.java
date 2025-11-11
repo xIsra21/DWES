@@ -1,4 +1,4 @@
-package goya.daw2.sesionLogin;
+package goya.daw2.sesionlogin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,22 +12,27 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController {
 	static String usuarioKey = "Israel", 
 	passwordKey = "12345";
+	
 	@GetMapping("/")
 	public String principal() {
 		return "/login";
 	}
+	
 	@PostMapping("/")
 	public String principal2(@RequestParam(name="usuario", required=false)String usuario,
 			@RequestParam(name="password", required=false)String password,
-			HttpSession sesion) {
+			HttpSession sesion,
+			Model modelo) {
 		if (usuario != null || password != null) {
 			sesion.setAttribute("usuario", usuario);
 			sesion.setAttribute("password", password);
 			if(sesion.getAttribute("usuario") == null) {
+				modelo.addAttribute("error","Usuario o COntraseña Incorrectos");
 				return "/login";
 			}
 			if(!sesion.getAttribute("usuario").equals(usuarioKey) ||
 					!sesion.getAttribute("password").equals(passwordKey)) {
+				modelo.addAttribute("error","Usuario o COntraseña Incorrectos");
 				return "/login";
 			}
 			return "index";
@@ -36,14 +41,19 @@ public class LoginController {
 	}
 	
 	@GetMapping("/login")
-	public String login(HttpSession sesion) {
+	public String login(HttpSession sesion,
+			Model modelo) {
+		
 		if(sesion.getAttribute("usuario") == null) {
+			
 			return "/login";
 		}
 		if(sesion.getAttribute("usuario").equals(usuarioKey) ||
 				sesion.getAttribute("password").equals(passwordKey)) {
+			modelo.addAttribute("error","");
 			return "index";
 		}
+		modelo.addAttribute("error","Usuario o COntraseña Incorrectos");
 		return "login";
 	}
 	
