@@ -1,5 +1,8 @@
 package goya.daw2.sesionlogin;
 
+import java.util.HashMap;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,11 +13,17 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
-	static String usuarioKey = "Israel", 
-	passwordKey = "12345";
+	static HashMap<String, String> usuarios = new HashMap<String, String>();
+	static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	public void addUsers() {
+		usuarios.put("Israel",encoder.encode("12345"));
+		usuarios.put("Javier",encoder.encode("puche"));
+	}
+	
 	
 	@GetMapping("/")
 	public String principal() {
+		
 		return "/login";
 	}
 	
@@ -23,6 +32,7 @@ public class LoginController {
 			@RequestParam(name="password", required=false)String password,
 			HttpSession sesion,
 			Model modelo) {
+		addUsers();
 		if (usuario != null || password != null) {
 			sesion.setAttribute("usuario", usuario);
 			sesion.setAttribute("password", password);
@@ -30,8 +40,8 @@ public class LoginController {
 				modelo.addAttribute("error","Usuario o COntraseña Incorrectos");
 				return "/login";
 			}
-			if(!sesion.getAttribute("usuario").equals(usuarioKey) ||
-					!sesion.getAttribute("password").equals(passwordKey)) {
+			if(!usuarios.containsKey(usuario) ||
+					!encoder.matches(password, usuarios.get(usuario))) {
 				modelo.addAttribute("error","Usuario o COntraseña Incorrectos");
 				return "/login";
 			}
@@ -43,13 +53,13 @@ public class LoginController {
 	@GetMapping("/login")
 	public String login(HttpSession sesion,
 			Model modelo) {
-		
+		addUsers();
 		if(sesion.getAttribute("usuario") == null) {
 			
 			return "/login";
 		}
-		if(sesion.getAttribute("usuario").equals(usuarioKey) ||
-				sesion.getAttribute("password").equals(passwordKey)) {
+		if(usuarios.containsKey(sesion.getAttribute("usuario")) &&
+				!encoder.matches((CharSequence) sesion.getAttribute("password"), usuarios.get(sesion.getAttribute("usuario")))) {
 			modelo.addAttribute("error","");
 			return "index";
 		}
@@ -59,11 +69,12 @@ public class LoginController {
 	
 	@GetMapping("/pag1")
 	public String pag1(HttpSession sesion) {
+		addUsers();
 		if(sesion.getAttribute("usuario") == null) {
 			return "/login";
 		}
-		if(!sesion.getAttribute("usuario").equals(usuarioKey) ||
-				!sesion.getAttribute("password").equals(passwordKey)|| 
+		if(!usuarios.containsKey(sesion.getAttribute("usuario")) &&
+				!encoder.matches((CharSequence) sesion.getAttribute("password"), usuarios.get(sesion.getAttribute("usuario")))|| 
 				sesion.getAttribute("usuario") == null) {
 			return "/login";
 		}
@@ -72,11 +83,12 @@ public class LoginController {
 	
 	@GetMapping("/pag2")
 	public String pag2(HttpSession sesion) {
+		addUsers();
 		if(sesion.getAttribute("usuario") == null) {
 			return "/login";
 		}
-		if(!sesion.getAttribute("usuario").equals(usuarioKey) ||
-				!sesion.getAttribute("password").equals(passwordKey)|| 
+		if(!usuarios.containsKey(sesion.getAttribute("usuario")) &&
+				!encoder.matches((CharSequence) sesion.getAttribute("password"), usuarios.get(sesion.getAttribute("usuario")))|| 
 				sesion.getAttribute("usuario") == null) {
 			return "/login";
 		}
@@ -85,6 +97,7 @@ public class LoginController {
 	
 	@PostMapping("/logout")
 	public String logout(HttpSession sesion) {
+		addUsers();
 		sesion.invalidate();
 		return "/login";
 	}
