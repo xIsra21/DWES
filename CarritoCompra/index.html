@@ -11,7 +11,14 @@
 	<form th:action="@{/resumen}" method="post">
 		<button type="submit">Finalizar compra</button>
 	</form><br>
-	<label>Stock:</label>
+	<h2>Acumulado:</h2>
+	<ul>
+		<li th:each="producto : ${productos}">
+			<p th:text="${producto}">€</p>
+		</li>
+	</ul>
+	<label>Total:<label th:text="${total}"></label>€</label><br>
+	<label>Stock Provisional:</label>
 	<ol>
 		<li th:each="item : ${stock}">
 			<p th:text="${item}"></p>
