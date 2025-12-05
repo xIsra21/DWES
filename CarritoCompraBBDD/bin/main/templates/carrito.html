@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Carrito de la compra</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+    <h1>Disfruta y verdura:</h1>
+
+    <p th:if="${errores}" th:text="${errores}"></p>
+
+    <!-- Mostrar formulario mientras no se haya terminado la compra -->
+    <div th:unless="${finalCompra}">
+        <form action="/" method="post">
+
+            <!-- Lista de productos -->
+            <p th:each="producto, indice : ${productos}">
+                <label th:text="|${producto} (${precios[indice.index]}€)|"></label>
+                <input type="number" name="cantidades" value="0" min="0" />
+            </p>
+
+            <input type="submit" name="continuar" value="Continuar" />
+            <input type="submit" name="comprar" value="Terminar compra" />
+
+        </form>
+
+        <h2>Acumulado:</h2>
+        <ul>
+            <li th:each="productoYCantidad : ${productosYcantidades}"
+                th:text="${productoYCantidad}"></li>
+        </ul>
+
+        <h3 th:text="|Total: ${total} €|"></h3>
+    </div>
+
+    <!-- Resumen final de la compra -->
+    <div th:if="${finalCompra}">
+        <h2>Resumen compra:</h2>
+        <ul>
+            <li th:each="productoYCantidad : ${productosYcantidades}"
+                th:text="${productoYCantidad}"></li>
+        </ul>
+		<h2>¡Gracias por su compra!</h2>
+
+		<p><a href="/" style="font-size: 1.2em; font-weight: bold;">Volver a comprar</a></p>
+    </div>
+
+	<h2>Stock disponible</h2>
+	<ul>
+	    <li th:each="item : ${productosYstock}"
+	        th:text="|${item.nombre} : ${item.stock} unidades ( ${item.precio} € )|">
+	    </li>
+	</ul>
+
