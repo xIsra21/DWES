@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <form action="#" th:action="@{/form}" method="get">
+            <table>
+                <tr>
+                    <td>Nombre:</td>
+                    <td><input type="text" name="nombre" /></td>
+					<td><p th:text="|${error}|"></p></td>
+                </tr>	
+                <tr>
+                    <td><button type="submit">Submit</button></td>
+					
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<ol>
+			<li th:each="item : ${datos}">
+				<p th:text="${item}"></p>
+			</li>
+			<p th:text="${quizz}"></p>
+		</ol>
+	</body>
+</html>

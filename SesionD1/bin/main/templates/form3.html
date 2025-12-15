@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <form action="#" th:action="@{/form3}" method="post">
+			
+			  <h3>Selecciona tus hábitos saludables</h3>
+			  
+			  <label>
+			    <input type="checkbox" name="habitos" value="Ejercicio"> Hago ejercicio
+			  </label><br>
+			  
+			  <label>
+			    <input type="checkbox" name="habitos" value="Dieta"> Sigo una dieta equilibrada
+			  </label><br>
+			  
+			  <label>
+			    <input type="checkbox" name="habitos" value="Dormir"> Duermo bien
+			  </label><br>
+			  
+			  <label>
+			    <input type="checkbox" name="habitos" value="NoFumar"> No fumo
+			  </label><br><br>
+			  
+			  <button type="submit">Enviar</button> 
+			  
+			  <button type="button" onclick="history.back()">Go Back</button>
+			  
+        </form>
+    </body>
+</html>
