@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import goya.daw2.sesionD1.entities.Partida;
+import goya.daw2.sesionD1.entities.Categoria;
 import goya.daw2.sesionD1.entities.Participantes;
 import goya.daw2.sesionD1.repositories.RepositorioPartida;
 import goya.daw2.sesionD1.repositories.RepositorioParticipantes;
@@ -23,8 +24,6 @@ import goya.daw2.sesionD1.repositories.RepositorioParticipantes;
 @Controller
 public class WebController {
 
-	LocalDateTime fechaHoraActual = LocalDateTime.now();
-	
 	RepositorioParticipantes repositorioParticipantes;
 	RepositorioPartida repositorioPartida;
 	
@@ -77,7 +76,9 @@ public class WebController {
     public String formulario3(@RequestParam(name = "habitos", required = false) List<String> habitos,
                               Model modelo,
                               HttpSession session) {
-
+    	
+    	LocalDateTime fechaHoraActual = LocalDateTime.now();
+    	
         if (habitos == null || habitos.isEmpty()) {
             habitos = List.of("Ninguna seleccionada");
         }
@@ -92,7 +93,7 @@ public class WebController {
         modelo.addAttribute("datos", datos);
         System.out.println(fechaHoraActual.toString());
         Participantes q1 = new Participantes((String) session.getAttribute("nombre"));
-        Partida p1 = new Partida(fechaHoraActual.toString(),habitos.size());
+        Partida p1 = new Partida(fechaHoraActual.toString(),habitos.size(),habitos.size()>2?Categoria.EXCELENTE:Categoria.BIEN);
         repositorioPartida.save(p1);
         q1.addPartida(p1);
         repositorioParticipantes.save(q1);
