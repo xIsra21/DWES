@@ -102,6 +102,20 @@ public class WebController {
 //        modelo.addAttribute("quizz",repositorio.findAll());
         return "results";
     }
+    
+    @GetMapping("/reporte")
+    public String reporte(Model modelo) {
+    	
+    	modelo.addAttribute("Puntos", repositorioPartida.findAllByOrderByPuntuacionDesc());
+    	modelo.addAttribute("Jugadores", repositorioParticipantes.findAllByOrderByNombreAsc());
+    	return "reporte";
+    }
+    
+    @GetMapping("/partida/borrar")
+    public String borrarPartida(@RequestParam("fecha") String fecha) {
+        repositorioPartida.deleteById(fecha);
+        return "redirect:/reporte";
+    }
 
     private boolean compNom(String nom) {
         String numeros = ".*[0-9].*";

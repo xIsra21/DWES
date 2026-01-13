@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<h1>Partidas</h1>
+	<ol>
+	    <li th:each="item : ${Puntos}">
+	        <span th:text="${item.fecha}"></span> -
+	        <span th:text="${item.puntuacion}"></span> -
+	        <span th:text="${item.categoria}"></span> -
+	        <span th:text="${item.participantes.nombre}"></span>
+	        <a th:href="@{/partida/borrar(fecha=${item.fecha})}">
+	            Borrar
+	        </a>
+	    </li>
+	</ol>
+
+<h1>Jugadores</h1>
+
+<ol>
+    <li th:each="jugador : ${Jugadores}">
+        <strong th:text="${jugador.nombre}"></strong>
+
+        <ol>
+            <li th:each="partida : ${jugador.partidas}">
+                <span th:text="${partida.fecha}"></span> -
+                <span th:text="${partida.puntuacion}"></span> -
+                <span th:text="${partida.categoria}"></span>
+            </li>
+        </ol>
+    </li>
+</ol>
+
+</body>
+</html>

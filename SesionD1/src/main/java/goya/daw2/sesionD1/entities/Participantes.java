@@ -56,7 +56,7 @@ public class Participantes {
 
 	@Override
 	public String toString() {
-		return "Quizz [nombre=" + nombre + ", partidas=" + partidas + "]";
+		return nombre;
 	}
 
 	
